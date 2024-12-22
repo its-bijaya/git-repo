@@ -26,12 +26,16 @@ jobs:
       # Build the Docker image
       - name: Build Docker Image
         run: |
-           # Extract the last part of the branch name (after the last '/')
+          # Extract the last part of the branch name (after the last '/')
           BRANCH_NAME=$(echo "${{ github.ref_name }}" | awk -F'/' '{print $NF}')
-          version="${BRANCH_NAME}-${{ github.ref_name }}"
           
-          docker build -t itsbijaya/git-repo:${version} .
-
-      - name: Push Docker Image
-        run: |
-          docker push itsbijaya/git-repo:${version}
+          # Check if the push is a Git tag
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            version="${BRANCH_NAME}-${{ github.ref_name }}"
+          else
+            version="${BRANCH_NAME}"
+          fi
+    
+          - name: Push Docker Image
+            run: |
+              docker push itsbijaya/git-repo:${version}
