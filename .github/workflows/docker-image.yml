@@ -26,11 +26,12 @@ jobs:
       # Build the Docker image
       - name: Build Docker Image
         run: |
-          BRANCH_NAME=$(echo "${{ github.ref_name }}" | tr '/' '-')
+           # Extract the last part of the branch name (after the last '/')
+          BRANCH_NAME=$(echo "${{ github.ref_name }}" | awk -F'/' '{print $NF}')
           version="${BRANCH_NAME}-${{ github.ref_name }}"
+          
           docker build -t itsbijaya/git-repo:${version} .
 
-      # Push the Docker image to Docker Hub
       - name: Push Docker Image
         run: |
           docker push itsbijaya/git-repo:${version}
