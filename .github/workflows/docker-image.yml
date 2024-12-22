@@ -35,7 +35,9 @@ jobs:
           else
             version="${BRANCH_NAME}"
           fi
+          
+          docker build -t itsbijaya/git-repo:${version} .
     
-          - name: Push Docker Image
-            run: |
-              docker push itsbijaya/git-repo:${version}
+      - name: Push Docker Image
+        run: |
+           docker push itsbijaya/git-repo:${version}
