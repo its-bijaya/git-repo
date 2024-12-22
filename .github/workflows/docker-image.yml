@@ -35,8 +35,8 @@ jobs:
           else
             version="${BRANCH_NAME}"
           fi
-          
-          docker build -t itsbijaya/git-repo:${BRANCH_NAME}-${{ github.ref_name }} .
+          Release_Version::$(echo ${GITHUB_REF:10})
+          docker build -t itsbijaya/git-repo:${BRANCH_NAME}-${{ Realease_Version }} .
     
       - name: Push Docker Image
         run: |
