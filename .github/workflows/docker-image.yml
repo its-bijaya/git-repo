@@ -3,8 +3,8 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - stage
-      - prod
+      - release/stage
+      - release/prod
 
 jobs:
   build-and-push:
@@ -26,9 +26,9 @@ jobs:
       - name: Set Image Tag
         id: set-tag
         run: |
-          if [[ "${{ github.ref_name }}" == "stage" ]]; then
+          if [[ "${{ github.ref_name }}" == "release/stage" ]]; then
             echo "tag=stage" >> $GITHUB_ENV
-          elif [[ "${{ github.ref_name }}" == "prod" ]]; then
+          elif [[ "${{ github.ref_name }}" == "release/prod" ]]; then
             echo "tag=prod" >> $GITHUB_ENV
           else
             echo "Unsupported branch!"
